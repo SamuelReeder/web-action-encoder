@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
     "name": "User Action Monitor",
-    "version": "1.0",
+    "version": "3.0",
     "description": "Monitor user interactions on web pages.",
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "storage", "scripting"],    
     "host_permissions": [
       "http://*/*",
       "https://*/*"
