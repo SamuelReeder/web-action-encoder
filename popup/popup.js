@@ -36,3 +36,7 @@ document.getElementById('export').addEventListener('click', function() {
         downloadAnchorNode.remove();
     });
 });
+
+document.getElementById('clear').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: "clear"});
+});

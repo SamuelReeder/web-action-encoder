@@ -31,7 +31,7 @@ document.addEventListener('keydown', function(event) {
         action: "trackKeyPress",
         keyDetails: keyDetails
     });
-});
+}, { capture: true });
 
 
 

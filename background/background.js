@@ -46,6 +46,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         case "exportActions":
             sendResponse({data: actions});
             break;
+
+        case "clear":
+            actions = {};
+            trackingActive = false;
+            currentActionName = null;
+            console.log("Cleared all actions.");
+            break;
+        
+        default:
+            console.warn("Unknown action:", request.action);
+            break;
     }
 });
 
