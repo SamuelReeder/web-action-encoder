@@ -10,17 +10,30 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 console.warn("Already tracking actions for:", request.name);
                 return;
             }
-            actions[request.name] = actions[request.name] || [];
-            trackingActive = true;
-            currentActionName = request.name;
-            console.log("Tracking started for:", request.name);
-            sendResponse({status: "Tracking started"});
-            break;
+            actions[request.name] = actions[request.name] || {};
+            actions[request.name]["steps"] = actions[request.name]["steps"] || [];
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                let currentURL = tabs[0].url;
+                console.log("Current URL from background script:", currentURL);
+        
+                if (!currentURL) {
+                    console.warn("Could not get current URL.");
+                    sendResponse({status: "Error getting URL"});
+                    return;
+                }
+        
+                actions[request.name]["url"] = actions[request.name]["url"] || currentURL;
+                trackingActive = true;
+                currentActionName = request.name;
+                console.log("Tracking started for:", request.name);
+                sendResponse({status: "Tracking started", url: currentURL}); 
+            });
+            return true;
 
         case "trackEvent":
             console.log("Tracking event:", request.eventDetails);
             if (trackingActive) {
-                actions[currentActionName].push(request.eventDetails);
+                actions[currentActionName]["steps"].push(request.eventDetails);
                 console.log("Event tracked:", request.eventDetails);
             }
             break;
@@ -28,7 +41,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         case "trackKeyPress":
             console.log("Tracking key press:", request.keyDetails);
             if (trackingActive) {
-                actions[currentActionName].push(request.keyDetails);
+                actions[currentActionName]["steps"].push(request.keyDetails);
                 console.log("Key press tracked:", request.keyDetails);
             }
             break;

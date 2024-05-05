@@ -33,7 +33,11 @@ document.getElementById('export').addEventListener('click', function() {
         downloadAnchorNode.setAttribute("download", "actions.json");
         document.body.appendChild(downloadAnchorNode); // Required for Firefox
         downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        // Delay the removal to ensure Firefox processes the click
+        setTimeout(() => {
+            downloadAnchorNode.remove();
+        }, 100); // 100 milliseconds should be enough
+        // downloadAnchorNode.remove();
     });
 });
 

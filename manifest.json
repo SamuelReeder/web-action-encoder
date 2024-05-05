@@ -3,12 +3,14 @@
     "name": "User Action Monitor",
     "version": "3.0",
     "description": "Monitor user interactions on web pages.",
-    "permissions": ["activeTab", "storage", "scripting"],    
+    "permissions": ["activeTab", "storage", "scripting", "downloads",
+    "<all_urls>"],    
     "host_permissions": [
       "http://*/*",
       "https://*/*"
     ],
     "background": {
+      "scripts": ["background/background.js"],
       "service_worker": "background/background.js"
     },
     "content_scripts": [
